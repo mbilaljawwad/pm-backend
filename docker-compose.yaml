@@ -1,0 +1,24 @@
+services:
+  nginx:
+    container_name: pm_nginx
+    image: nginx:alpine
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./.nginx/conf.d/pm-api.conf:/etc/nginx/templates/default.conf.template:ro
+    depends_on:
+      - pm_api  
+    deploy:
+      restart_policy:
+        condition: unless-stopped
+
+  pm_api:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+      args:
+        GOPROXY:
+    ports:
+      - 8081:8081
+    volumes:
+      - ./:/app
