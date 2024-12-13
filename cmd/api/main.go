@@ -1,16 +1,35 @@
 package main
 
 import (
-	"fmt"
+	"log"
 	"net/http"
+	"time"
+
+	"github.com/mbilaljawwad/pm-backend/internal/routes"
 )
 
 func main() {
+	srv := &http.Server{
+		Addr:           ":8081",
+		Handler:        routes.SetRoutes(),
+		ReadTimeout:    10 * time.Second, // Read timeout
+		WriteTimeout:   10 * time.Second, // Write timeout
+		MaxHeaderBytes: 1 << 20,          // Maximum header size (1 MB)
+	}
 
-	fmt.Println("Hello")
-	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprintf(w, "Hello, World")
-	})
+	log.Println("Starting API server")
+	srv.ListenAndServe()
+	log.Println("API Server started!")
 
-	http.ListenAndServe(":8081", nil)
+	// go func() {
+	// 	log.Println("Starting API server")
+	// 	srv.ListenAndServe()
+	// 	log.Println("API Server started!")
+
+	// 	// if err := srv.ListenAndServe(); err != nil {
+	// 	// 	log.Fatalf("server failed to start")
+	// 	// } else {
+	// 	// 	log.Println("API Server started!")
+	// 	// }
+	// }()
 }

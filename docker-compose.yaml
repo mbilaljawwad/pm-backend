@@ -3,11 +3,12 @@ services:
     container_name: pm_nginx
     image: nginx:alpine
     ports:
-      - "8080:8080"
+      - "8080:8080" 
     volumes:
-      - ./.nginx/conf.d/pm-api.conf:/etc/nginx/templates/default.conf.template:ro
+      - ./.nginx/conf.d/pm-api.conf:/etc/nginx/templates/default.conf.template
+      - ./.nginx/html:/etc/nginx/html
     depends_on:
-      - pm_api  
+      - pm_api
     deploy:
       restart_policy:
         condition: unless-stopped
