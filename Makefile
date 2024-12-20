@@ -1,6 +1,6 @@
 # start docker container.
 start:
-	docker-compose up -d
+	docker-compose up --build -d
 
 stop:
 	docker-compose stop
